@@ -72,4 +72,13 @@
       </plugin>
     </plugins>
   </build>
+
+  <!-- Add distributionManagement section -->
+  <distributionManagement>
+    <repository>
+      <id>github</id>
+      <name>GitHub HADAR Artifacts</name>
+      <url>https://maven.pkg.github.com/hadarkr60/Java-Artifacts</url>
+    </repository>
+  </distributionManagement>
 </project>
