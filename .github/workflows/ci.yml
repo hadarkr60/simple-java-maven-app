@@ -29,7 +29,7 @@ jobs:
         tar -xzf apache-maven-3.9.2-bin.tar.gz
         sudo mv apache-maven-3.9.2 /usr/local/apache-maven
         echo "MAVEN_HOME=/usr/local/apache-maven" >> $GITHUB_ENV
-        echo "PATH=\$MAVEN_HOME/bin:\$PATH" >> $GITHUB_ENV
+        echo "PATH=/usr/local/apache-maven/bin:$PATH" >> $GITHUB_ENV
 
     - name: Verify Maven version
       run: mvn -v
