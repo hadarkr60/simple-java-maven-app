@@ -65,12 +65,4 @@
             <url>https://maven.pkg.github.com/hadarkr60/Java-Artifacts</url>
         </repository>
     </distributionManagement>
-
-    <servers>
-        <server>
-            <id>github</id>
-            <username>USERNAME</username>
-            <password>${env.GH_TOKEN}</password>
-        </server>
-    </servers>
 </project>
