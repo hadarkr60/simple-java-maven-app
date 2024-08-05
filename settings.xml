@@ -1,9 +1,29 @@
-<settings>
-  <servers>
-    <server>
-      <id>github</id>
-      <username>${env.GH_TOKEN}</username>
-      <password>${env.GH_TOKEN}</password>
-    </server>
-  </servers>
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0">
+    <servers>
+        <server>
+            <id>github</id>
+            <username>${env.GH_TOKEN}</username>
+            <password>${env.GH_TOKEN}</password>
+        </server>
+    </servers>
+    <profiles>
+        <profile>
+            <id>github</id>
+            <repositories>
+                <repository>
+                    <id>github</id>
+                    <url>https://maven.pkg.github.com/hadarkr60/Java-Artifacts</url>
+                </repository>
+            </repositories>
+            <distributionManagement>
+                <repository>
+                    <id>github</id>
+                    <url>https://maven.pkg.github.com/hadarkr60/Java-Artifacts</url>
+                </repository>
+            </distributionManagement>
+        </profile>
+    </profiles>
+    <activeProfiles>
+        <activeProfile>github</activeProfile>
+    </activeProfiles>
 </settings>
