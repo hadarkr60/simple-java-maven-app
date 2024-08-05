@@ -55,12 +55,6 @@
                 <artifactId>versions-maven-plugin</artifactId>
                 <version>2.10.0</version>
             </plugin>
-            <!-- Ensure the maven-deploy-plugin is included -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-deploy-plugin</artifactId>
-                <version>3.1.0</version>
-            </plugin>
         </plugins>
     </build>
 
@@ -71,4 +65,12 @@
             <url>https://maven.pkg.github.com/hadarkr60/Java-Artifacts</url>
         </repository>
     </distributionManagement>
+
+    <servers>
+        <server>
+            <id>github</id>
+            <username>USERNAME</username>
+            <password>${env.GH_TOKEN}</password>
+        </server>
+    </servers>
 </project>
