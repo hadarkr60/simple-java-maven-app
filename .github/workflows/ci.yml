@@ -37,7 +37,14 @@ jobs:
     - name: Build with Maven
       run: mvn -B package --file pom.xml
 
-    - name: Publish to GitHub Packages Apache Maven
-      run: mvn deploy -s settings.xml
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Upload JAR file
+      uses: actions/upload-artifact@v3
+      with:
+        name: my-app-jar
+        path: target/*.jar
+
+    - name: Upload POM file
+      uses: actions/upload-artifact@v3
+      with:
+        name: my-app-pom
+        path: target/*.pom
