@@ -42,7 +42,7 @@ jobs:
         echo "VERSION=${version}" >> $GITHUB_ENV
         echo "VERSION=${version}"
 
-    - name: Update version in pom.xml
+    - name: Increment patch version
       run: |
         new_version=$(echo $VERSION | awk -F '-' '{print $1}' | awk -F '.' '{print $1 "." $2 "." ($3+1) "-SNAPSHOT"}')
         mvn versions:set -DnewVersion=$new_version
