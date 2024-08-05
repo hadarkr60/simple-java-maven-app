@@ -66,6 +66,11 @@ jobs:
       run: |
         docker push hadarkravetsky/hello_world:${{ env.NEW_VERSION }}
 
+    - name: Publish to GitHub Packages
+      run: mvn deploy -s settings.xml
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
     - name: Upload JAR to GitHub Actions
       uses: actions/upload-artifact@v3
       with:
