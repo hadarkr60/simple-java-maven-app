@@ -59,3 +59,20 @@ jobs:
         run: |
           docker build -t hadarkravetsky/hello_world:${{ env.new_version }} .
           docker push hadarkravetsky/hello_world:${{ env.new_version }}
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Deploy Docker image to EC2
+        run: |
+          aws ssm send-command \
+            --document-name "AWS-RunShellScript" \
+            --targets "Key=instanceids,Values=i-09c883e7357161761" \
+            --parameters 'commands=["docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}", "docker pull hadarkravetsky/hello_world:${{ env.new_version }}", "docker run -d hadarkravetsky/hello_world:${{ env.new_version }}"]' \
+            --timeout-seconds 600 \
+            --max-concurrency "50" \
+            --max-errors "0"
