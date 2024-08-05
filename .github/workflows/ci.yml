@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+  workflow_dispatch:  # This allows manual triggering of the workflow
 
 jobs:
   build:
@@ -67,9 +68,9 @@ jobs:
         docker push hadarkravetsky/hello_world:${{ env.NEW_VERSION }}
 
     - name: Publish to GitHub Packages
-      run: mvn deploy -s $GITHUB_WORKSPACE/settings.xml
+      run: mvn deploy -s settings.xml
       env:
-        GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Upload JAR to GitHub Actions
       uses: actions/upload-artifact@v3
