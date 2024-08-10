@@ -37,10 +37,15 @@ jobs:
           chmod +x /usr/local/bin/hadolint
 
       - name: Run Hadolint
+        run: hadolint Dockerfile
+
+      - name: Install Trivy
         run: |
-          echo "Checking for Hadolint configuration file..."
-          ls -la hadolint.yml
-          hadolint Dockerfile --config hadolint.yml
+          curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin
+
+      - name: Scan Dockerfile with Trivy
+        run: |
+          trivy fs --exit-code 1 --severity CRITICAL,HIGH --no-progress Dockerfile
 
       - name: Build Docker image
         run: docker build -t my-app:${{ github.sha }} .
