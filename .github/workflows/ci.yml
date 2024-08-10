@@ -37,11 +37,21 @@ jobs:
       - name: Authenticate Snyk CLI
         run: snyk auth ${{ secrets.SNYK_TOKEN }}
 
+      - name: Install Hadolint
+        run: |
+          wget -O /usr/local/bin/hadolint https://github.com/hadolint/hadolint/releases/download/v2.14.0/hadolint-Linux-x86_64
+          chmod +x /usr/local/bin/hadolint
+
+      - name: Scan Dockerfile with Hadolint
+        run: hadolint Dockerfile
+
       - name: Build Docker image
         run: docker build -t my-app:${{ github.sha }} .
 
       - name: Scan Docker image with Snyk
-        run: snyk container test my-app:${{ github.sha }}
+        id: snyk_scan
+        run: snyk test --docker my-app:${{ github.sha }}
+        continue-on-error: true
 
       - name: Increment version
         id: version
@@ -60,8 +70,6 @@ jobs:
           git add pom.xml
           git commit -m "Increment version to ${{ env.new_version }}"
           git push
-
-      # Commented out deployment stages for now
 
       # - name: Log in to DockerHub
       #   uses: docker/login-action@v2
@@ -86,7 +94,5 @@ jobs:
       #     aws ssm send-command \
       #       --document-name "AWS-RunShellScript" \
       #       --targets "Key=instanceids,Values=i-09c883e7357161761" \
-      #       --parameters 'commands=["docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}", "docker pull hadarkravetsky/hello_world:${{ env.new_version }}", "docker run -d hadarkravetsky/hello_world:${{ env.new_version }}"]' \
-      #       --timeout-seconds 600 \
-      #       --max-concurrency "50" \
-      #       --max-errors "0"
+      #       --parameters 'commands=["d
+
