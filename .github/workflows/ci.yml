@@ -39,8 +39,8 @@ jobs:
       - name: Run Hadolint
         run: |
           echo "Checking for Hadolint configuration file..."
-          ls -la .hadolint.yml
-          hadolint Dockerfile --config .hadolint.yml
+          ls -la hadolint.yml
+          hadolint Dockerfile --config hadolint.yml
 
       - name: Build Docker image
         run: docker build -t my-app:${{ github.sha }} .
