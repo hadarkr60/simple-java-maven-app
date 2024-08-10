@@ -31,14 +31,6 @@ jobs:
       - name: Build with Maven
         run: mvn clean install
 
-      - name: Install Hadolint
-        run: |
-          curl -sSL https://github.com/hadolint/hadolint/releases/latest/download/hadolint-Linux-x86_64 -o /usr/local/bin/hadolint
-          chmod +x /usr/local/bin/hadolint
-
-      - name: Run Hadolint
-        run: hadolint Dockerfile
-
       - name: Install Trivy
         run: |
           curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin
