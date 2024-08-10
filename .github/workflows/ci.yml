@@ -39,7 +39,7 @@ jobs:
 
       - name: Install Hadolint
         run: |
-          wget -O /usr/local/bin/hadolint https://github.com/hadolint/hadolint/releases/download/v2.14.0/hadolint-Linux-x86_64
+          curl -sSL https://github.com/hadolint/hadolint/releases/latest/download/hadolint-Linux-x86_64 -o /usr/local/bin/hadolint
           chmod +x /usr/local/bin/hadolint
 
       - name: Scan Dockerfile with Hadolint
@@ -94,5 +94,7 @@ jobs:
       #     aws ssm send-command \
       #       --document-name "AWS-RunShellScript" \
       #       --targets "Key=instanceids,Values=i-09c883e7357161761" \
-      #       --parameters 'commands=["d
-
+      #       --parameters 'commands=["docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}", "docker pull hadarkravetsky/hello_world:${{ env.new_version }}", "docker run -d hadarkravetsky/hello_world:${{ env.new_version }}"]' \
+      #       --timeout-seconds 600 \
+      #       --max-concurrency "50" \
+      #       --max-errors "0"
