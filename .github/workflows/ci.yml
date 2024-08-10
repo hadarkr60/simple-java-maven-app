@@ -37,11 +37,12 @@ jobs:
       - name: Authenticate Snyk CLI
         run: snyk auth ${{ secrets.SNYK_TOKEN }}
 
-      - name: Scan Dockerfile with Snyk
-        run: snyk container test --file=Dockerfile
-
       - name: Build Docker image
         run: docker build -t my-app:${{ github.sha }} .
+
+      - name: Scan Dockerfile with Snyk
+        run: |
+          snyk container test --file=Dockerfile --dockerfile
 
       - name: Scan Docker image with Snyk
         run: snyk test --docker my-app:${{ github.sha }}
