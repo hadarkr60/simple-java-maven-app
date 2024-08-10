@@ -3,10 +3,10 @@ FROM debian:bullseye-slim AS build
 
 # Install necessary packages and OpenJDK
 RUN apt-get update && \
-    apt-get install -y \
+    apt-get install --no-install-recommends -y \
     wget \
-    openjdk-17-jdk \
-    maven \
+    openjdk-17-jdk=<version> \
+    maven=<version> \
     && rm -rf /var/lib/apt/lists/*
 
 # Set the working directory
@@ -24,8 +24,9 @@ FROM debian:bullseye-slim
 
 # Install OpenJDK for running the application
 RUN apt-get update && \
-    apt-get install -y openjdk-17-jdk && \
-    rm -rf /var/lib/apt/lists/*
+    apt-get install --no-install-recommends -y \
+    openjdk-17-jdk=<version> \
+    && rm -rf /var/lib/apt/lists/*
 
 # Set the working directory
 WORKDIR /app
