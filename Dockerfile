@@ -1,13 +1,13 @@
-# Use a more recent OpenJDK image as a parent image
-FROM openjdk:23-ea-34-jdk-oraclelinux8 AS build
+# Use a minimal Debian-based image as a parent image
+FROM debian:bullseye-slim AS build
 
-# Install Maven 3.9.2
-ENV MAVEN_VERSION=3.9.2
+# Install necessary packages and OpenJDK
 RUN apt-get update && \
-    apt-get install -y wget && \
-    wget https://archive.apache.org/dist/maven/maven-3/$MAVEN_VERSION/binaries/apache-maven-$MAVEN_VERSION-bin.tar.gz && \
-    tar xzvf apache-maven-$MAVEN_VERSION-bin.tar.gz -C /opt && \
-    ln -s /opt/apache-maven-$MAVEN_VERSION/bin/mvn /usr/bin/mvn
+    apt-get install -y \
+    wget \
+    openjdk-17-jdk \
+    maven \
+    && rm -rf /var/lib/apt/lists/*
 
 # Set the working directory
 WORKDIR /app
@@ -19,8 +19,13 @@ COPY src ./src
 # Build the application
 RUN mvn clean package
 
-# Use the same updated OpenJDK image to run the application
-FROM openjdk:23-ea-34-jdk-oraclelinux8
+# Use a minimal Debian-based image to run the application
+FROM debian:bullseye-slim
+
+# Install OpenJDK for running the application
+RUN apt-get update && \
+    apt-get install -y openjdk-17-jdk && \
+    rm -rf /var/lib/apt/lists/*
 
 # Set the working directory
 WORKDIR /app
