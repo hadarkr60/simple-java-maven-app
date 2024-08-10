@@ -31,15 +31,15 @@ jobs:
       - name: Build with Maven
         run: mvn clean install
 
-        - name: Set up Snyk
-          uses: snyk/actions/setup@v1
-          with:
-            version: 'latest'
+      - name: Set up Snyk
+        uses: snyk/actions/setup@v1
+        with:
+          version: 'latest'
 
-        - name: Snyk Security Scan
-          run: snyk test --severity-threshold=critical
-          env:
-            SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      - name: Snyk Security Scan
+        run: snyk test --severity-threshold=critical
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
       - name: Increment version
         id: version
