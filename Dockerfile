@@ -1,12 +1,12 @@
 # Use a minimal Debian-based image as a parent image
 FROM debian:bullseye-slim AS build
 
-# Install necessary packages and OpenJDK
+# Install necessary packages and OpenJDK with pinned versions
 RUN apt-get update && \
     apt-get install --no-install-recommends -y \
     wget \
-    openjdk-17-jdk=17.0.1+12-1~deb11u1 \
-    maven=3.8.1-1 \
+    openjdk-17-jdk=17.0.7+10-1~deb11u1 \
+    maven=3.8.6-1 \
     && rm -rf /var/lib/apt/lists/*
 
 # Set the working directory
@@ -22,10 +22,10 @@ RUN mvn clean package
 # Use a minimal Debian-based image to run the application
 FROM debian:bullseye-slim
 
-# Install OpenJDK for running the application
+# Install OpenJDK for running the application with pinned version
 RUN apt-get update && \
     apt-get install --no-install-recommends -y \
-    openjdk-17-jdk=17.0.1+12-1~deb11u1 \
+    openjdk-17-jdk=17.0.7+10-1~deb11u1 \
     && rm -rf /var/lib/apt/lists/*
 
 # Set the working directory
