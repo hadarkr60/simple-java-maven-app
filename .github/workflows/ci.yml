@@ -31,11 +31,11 @@ jobs:
       - name: Build with Maven
         run: mvn clean install
 
-      - name: Dependency scan with Snyk
-        uses: snyk/actions/maven@v3
+      - name: Snyk Security Scan
+        uses: snyk/actions@v2
         with:
           command: test
-          severity-threshold: critical
+          args: --severity-threshold=critical
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
