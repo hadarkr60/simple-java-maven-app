@@ -31,13 +31,11 @@ jobs:
       - name: Build with Maven
         run: mvn clean install
 
-      - name: Set up Snyk
-        uses: snyk/actions/setup@v1
+      - name: Scan Docker image
+        uses: snyk/actions/docker@master
         with:
-          version: 'latest'
-
-      - name: Snyk Security Scan
-        run: snyk test --severity-threshold=critical
+          image: ${{ env.GITHUB_REGISTRY }}/${{ env.GITHUB_REPOSITORY }}:${{ env.DOCKER_IMAGE_TAG }}
+          args: --file=Dockerfile --severity-threshold=high --sarif-file-output=snyk.sarif
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
