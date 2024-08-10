@@ -5,8 +5,8 @@ FROM debian:bullseye-slim AS build
 RUN apt-get update && \
     apt-get install --no-install-recommends -y \
     wget \
-    openjdk-17-jdk=<version> \
-    maven=<version> \
+    openjdk-17-jdk=17.0.1+12-1~deb11u1 \
+    maven=3.8.1-1 \
     && rm -rf /var/lib/apt/lists/*
 
 # Set the working directory
@@ -25,7 +25,7 @@ FROM debian:bullseye-slim
 # Install OpenJDK for running the application
 RUN apt-get update && \
     apt-get install --no-install-recommends -y \
-    openjdk-17-jdk=<version> \
+    openjdk-17-jdk=17.0.1+12-1~deb11u1 \
     && rm -rf /var/lib/apt/lists/*
 
 # Set the working directory
