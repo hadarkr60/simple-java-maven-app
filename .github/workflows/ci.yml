@@ -41,7 +41,7 @@ jobs:
         run: docker build -t my-app:${{ github.sha }} .
 
       - name: Scan Docker image with Snyk
-        run: snyk test --all-projects --docker my-app:${{ github.sha }}
+        run: snyk test --docker my-app:${{ github.sha }}
 
       - name: Increment version
         id: version
