@@ -1,5 +1,5 @@
-# Use an official OpenJDK image as a parent image
-FROM openjdk:17-jdk-slim AS build
+# Use a more recent OpenJDK image as a parent image
+FROM openjdk:23-ea-34-jdk-oraclelinux8 AS build
 
 # Install Maven 3.9.2
 ENV MAVEN_VERSION=3.9.2
@@ -19,8 +19,8 @@ COPY src ./src
 # Build the application
 RUN mvn clean package
 
-# Use an official OpenJDK image to run the application
-FROM openjdk:17-jdk-slim
+# Use the same updated OpenJDK image to run the application
+FROM openjdk:23-ea-34-jdk-oraclelinux8
 
 # Set the working directory
 WORKDIR /app
